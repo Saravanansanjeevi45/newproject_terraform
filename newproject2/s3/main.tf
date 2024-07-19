@@ -1,11 +1,11 @@
 provider "aws" {
   region = "us-east-1"
-  access_key = "AKIAZQ3DSU52Y7IEV3X7"
-  secret_key = "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"
+  access_key = "AKIAZQ3DSU52ZENN5Q73"
+  secret_key = "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"
 }
 
-resource "aws_s3_bucket" "project" {
-  bucket = "project"
+resource "aws_s3_bucket" "saravanan" {
+  bucket = "saravanan"
   tags = {
     Name        = "saravanan"
     Environment = "Dev"
