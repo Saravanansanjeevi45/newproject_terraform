@@ -34,6 +34,6 @@ variable "small" {
     
     Name = "signature_project"
     Enviroment = "production"
-    project = "signature"
+    project = "signature1"
     } 
   }
