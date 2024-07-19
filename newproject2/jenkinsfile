@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    //Provide Input use only _ not -
+    parameters {
+        choice(name: 'AWS_SERVICE', choices: ['s3', 'ec2'], description: 'Select AWS SERVICE')
+        choice(name: 'TERRAFORM_ACTION', choices: ['Apply', 'Destroy'], description: 'Select Terraform action')
+        string(name: 'pipeline_name', defaultValue: '', description: 'Enter Pipeline Name')
+    }
+    //Environmental Variable to call are keyword in multiple parts
+    environment {
+        GIT_REPO_URL = "https://github.com/Saravanansanjeevi45/newproject_terraform.git"
+        TERRAFORM_DIR = "/var/lib/jenkins/workspace/terraformproject${params.pipeline_name}/newproject2/${params.AWS_SERVICE}"
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: env.GIT_REPO_URL]]])
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                dir("${env.TERRAFORM_DIR}") {
+                    sh 'terraform init'
+                }
+            }
+        }
+        stage('Terraform Action') {
+            steps {
+                dir("${env.TERRAFORM_DIR}") {
+                    script {
+                        if (params.TERRAFORM_ACTION == 'Apply') {
+                            sh 'terraform apply -auto-approve'
+                        } else if (params.TERRAFORM_ACTION == 'Destroy') {
+                            sh 'terraform destroy -auto-approve'
+                        } else {
+                            error("Invalid Terraform action selected")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
