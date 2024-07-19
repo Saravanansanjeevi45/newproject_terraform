@@ -4,10 +4,10 @@ provider "aws" {
   secret_key = "cODBRrPy1vn8JokJm/uYHrIE2y7HG94Np+4YE2Wi"
 }
 
-resource "aws_s3_bucket" "saravanan" {
-  bucket = "saravanan"
+resource "aws_s3_bucket" "saravanan11" {
+  bucket = "saravanan11"
   tags = {
-    Name        = "saravanan"
+    Name        = "saravanan11"
     Environment = "Dev"
   }
 }
